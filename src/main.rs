@@ -6,7 +6,7 @@ fn main() {
     let matches = command!()
         .arg(
             arg!([SUBCOMMAND])
-                .possible_values(["add", "list", "remove", "done"])
+                .possible_values(["add", "list", "done"])
                 .default_value("list"),
         )
         .get_matches();
