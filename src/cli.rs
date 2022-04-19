@@ -63,3 +63,18 @@ pub fn list_list(list: &mut TaskList) {
         println!("No tasks to print");
     }
 }
+
+pub fn mark_done(list: &mut TaskList) {
+    let mut index = String::new();
+    print!("index: ");
+    io::stdout().flush().unwrap();
+    io::stdin().read_line(&mut index).unwrap();
+    let index: usize = index.trim().parse().unwrap();
+
+    let task = list.get_index(index);
+    if let Some(task) = task {
+        task.set_done(true);
+    } else {
+        println!("No task with index {}", index);
+    }
+}

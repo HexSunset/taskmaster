@@ -70,6 +70,14 @@ impl TaskList {
         }
     }
 
+	pub fn get_index(&mut self, i: usize) -> Option<&mut Task> {
+		if i < self.tasks.len() {
+    		return Some(&mut self.tasks[i])
+		} else {
+    		return None
+		}
+	}
+
     pub fn get(
         &self,
         name: String,

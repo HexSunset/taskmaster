@@ -1,5 +1,5 @@
 use clap::{arg, command};
-use taskmaster::cli::{list_add, list_list};
+use taskmaster::cli::{list_add, list_list, mark_done};
 use taskmaster::task::TaskList;
 
 fn main() {
@@ -7,7 +7,7 @@ fn main() {
         .arg(
             arg!([SUBCOMMAND])
                 .required(true)
-                .possible_values(["add", "list", "remove"]),
+                .possible_values(["add", "list", "remove", "done"]),
         )
         .get_matches();
 
@@ -15,9 +15,10 @@ fn main() {
 
     if let Some(cmd) = matches.value_of("SUBCOMMAND") {
         match cmd {
-            "add" => list_add(&mut list),
+            "add"  => list_add(&mut list),
             "list" => list_list(&mut list),
-            _ => unreachable!(),
+            "done" => mark_done(&mut list),
+            _      => unreachable!(),
         }
     }
 
