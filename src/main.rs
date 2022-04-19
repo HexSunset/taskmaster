@@ -6,8 +6,8 @@ fn main() {
     let matches = command!()
         .arg(
             arg!([SUBCOMMAND])
-                .required(true)
-                .possible_values(["add", "list", "remove", "done"]),
+                .possible_values(["add", "list", "remove", "done"])
+                .default_value("list"),
         )
         .get_matches();
 
@@ -15,10 +15,10 @@ fn main() {
 
     if let Some(cmd) = matches.value_of("SUBCOMMAND") {
         match cmd {
-            "add"  => list_add(&mut list),
+            "add" => list_add(&mut list),
             "list" => list_list(&mut list),
             "done" => mark_done(&mut list),
-            _      => unreachable!(),
+            _ => unreachable!(),
         }
     }
 
