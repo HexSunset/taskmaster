@@ -1,13 +1,25 @@
-use taskmaster::cli::print_task;
-use taskmaster::task::Task;
+use clap::{arg, command};
+use taskmaster::cli::{list_add, list_list};
+use taskmaster::task::TaskList;
 
 fn main() {
-    let mut t = Task::new();
-    t.set_desc("Task in progress".to_string());
-    print_task(t);
+    let matches = command!()
+        .arg(
+            arg!([SUBCOMMAND])
+                .required(true)
+                .possible_values(["add", "list", "remove"]),
+        )
+        .get_matches();
 
-    let mut t2 = Task::new();
-    t2.set_desc("Task you've completed".to_string());
-    t2.set_done(true);
-    print_task(t2);
+    let mut list = TaskList::import();
+
+    if let Some(cmd) = matches.value_of("SUBCOMMAND") {
+        match cmd {
+            "add" => list_add(&mut list),
+            "list" => list_list(&mut list),
+            _ => unreachable!(),
+        }
+    }
+
+    list.export();
 }

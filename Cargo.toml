@@ -10,3 +10,6 @@ name = "task"
 path = "src/main.rs"
 
 [dependencies]
+clap = {version = "3.1.9", features = ["color", "cargo"]}
+ron = "0.7.0"
+serde = "1.0.136"
