@@ -33,10 +33,12 @@ USAGE:
 - [ ] Add comments to tasks
 
 ### Cli tool
-- [X] Save tasks on disk
+- [X] Add tasks
 - [X] Display tasks
 - [X] Filter tasks based on description
 - [X] Filter tasks based on done state
+- [X] Save tasks on disk
+- [X] Remove done tasks
 - [ ] Filter tasks based on priority
 - [ ] Filter tasks based on due date
 - [ ] Save multiple different tasks lists for different projects
