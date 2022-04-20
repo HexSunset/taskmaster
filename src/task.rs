@@ -37,7 +37,8 @@ impl TaskList {
 
     // TODO: Add print info
     pub fn import() -> TaskList {
-        let list_str = std::fs::read_to_string("~/taskmaster.ron");
+        let home = std::env::var("HOME").unwrap();
+        let list_str = std::fs::read_to_string(format!("{}/taskmaster.ron", home));
         if let Err(_) = list_str {
             TaskList::new()
         } else {
@@ -47,13 +48,14 @@ impl TaskList {
 
     // TODO: Add print info
     pub fn export(&self) {
+        let home = std::env::var("HOME").unwrap();
         let conf = ron::ser::PrettyConfig::new();
         let file = std::fs::OpenOptions::new()
             .write(true)
             .truncate(true)
-            .open("~/taskmaster.ron");
+            .open(format!("{}/taskmaster.ron", home));
         if file.is_err() {
-            let file = std::fs::File::create("~/taskmaster.ron").unwrap();
+            let file = std::fs::File::create(format!("{}/taskmaster.ron", home)).unwrap();
             ron::ser::to_writer_pretty(file, &self, conf.clone()).unwrap();
         } else {
             let file = file.unwrap();
