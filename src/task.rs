@@ -89,10 +89,10 @@ impl TaskList {
         let mut tasks: Vec<(usize, Task)> = tasks.collect();
         tasks.retain(|t| t.1.get_desc().contains(&name));
         if filter_done {
-            tasks.retain(|t| t.1.get_done())
+            tasks.retain(|t| !t.1.get_done())
         }
         if filter_undone {
-            tasks.retain(|t| !t.1.get_done())
+            tasks.retain(|t| t.1.get_done())
         }
         if tasks.len() > 0 {
             Some(tasks)
