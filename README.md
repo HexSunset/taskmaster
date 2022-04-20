@@ -1,5 +1,9 @@
 # TaskMaster
 
+**WIP** don't expect stability or ease of use yet.
+
+---
+
 A cli-based todo-list manager.
 
 ## Install
@@ -26,6 +30,7 @@ USAGE:
 - [ ] Add due date to tasks
 - [ ] Add priority to tasks
 - [ ] Add context to tasks
+- [ ] Add comments to tasks
 
 ### Cli tool
 - [X] Save tasks on disk
@@ -35,3 +40,4 @@ USAGE:
 - [ ] Filter tasks based on priority
 - [ ] Filter tasks based on due date
 - [ ] Save multiple different tasks lists for different projects
+- [ ] Manage tasks on a different machine (through ssh? http?)
