@@ -18,8 +18,16 @@ cargo install --path .
 USAGE:
     task [SUBCOMMAND]
 
-    ARGS:
-        <SUBCOMMAND>    [default: list] [possible values: add, list, done, clear_done]
+OPTIONS:
+    -h, --help       Print help information
+    -V, --version    Print version information
+
+SUBCOMMANDS:
+    add      Add a task to the list
+    clear    Remove done tasks from the list
+    do       Mark a task as done
+    help     Print this message or the help of the given subcommand(s)
+    list     List tasks
 ```
 
 ## Project goals
