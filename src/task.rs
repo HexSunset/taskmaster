@@ -79,12 +79,7 @@ impl TaskList {
         }
     }
 
-    pub fn get(
-        &self,
-        name: String,
-        filter_done: bool,
-        filter_undone: bool,
-    ) -> Option<Vec<(usize, Task)>> {
+    pub fn get(&self, name: String, filter_done: bool) -> Option<Vec<(usize, Task)>> {
         let tasks = self.tasks.clone().into_iter();
         let tasks = tasks.enumerate();
         let mut tasks: Vec<(usize, Task)> = tasks.collect();
@@ -92,9 +87,7 @@ impl TaskList {
         if filter_done {
             tasks.retain(|t| !t.1.is_done())
         }
-        if filter_undone {
-            tasks.retain(|t| t.1.is_done())
-        }
+
         if tasks.len() > 0 {
             Some(tasks)
         } else {
@@ -103,7 +96,7 @@ impl TaskList {
     }
 
     pub fn rm_done(&mut self) {
-		self.tasks.retain(|t| !t.is_done())
+        self.tasks.retain(|t| !t.is_done())
     }
 }
 
@@ -136,12 +129,12 @@ mod tests {
         t2.set_desc("another test".to_string());
         l.add(t2);
 
-        assert!(l.get("one".to_string(), false, false).unwrap().len() == 1);
-        assert!(l.get("another".to_string(), false, false).unwrap().len() == 1);
+        assert!(l.get("one".to_string(), false).unwrap().len() == 1);
+        assert!(l.get("another".to_string(), false).unwrap().len() == 1);
 
-        assert!(l.get("test".to_string(), false, false).unwrap().len() == 2);
+        assert!(l.get("test".to_string(), false).unwrap().len() == 2);
 
-        assert!(l.get("third".to_string(), false, false).is_none());
+        assert!(l.get("third".to_string(), false).is_none());
     }
 
     #[test]
@@ -157,8 +150,8 @@ mod tests {
         t2.set_desc("in progress task".to_string());
         l.add(t2);
 
-        assert!(l.get("".to_string(), true, false).unwrap().len() == 1);
-        assert!(l.get("".to_string(), false, true).unwrap().len() == 1);
+        assert!(l.get("".to_string(), true).unwrap().len() == 1);
+        assert!(l.get("".to_string(), false).unwrap().len() == 2);
     }
 
     #[test]
@@ -172,14 +165,13 @@ mod tests {
         let t2 = new_task();
         l.add(t2);
 
-        let mut t3 = new_task();
-        t3.set_done(true);
+        let t3 = new_task();
         l.add(t3);
 
-		assert_eq!(l.get("".to_string(), false, true).unwrap().len(), 2);
+        assert_eq!(l.get("".to_string(), false).unwrap().len(), 3);
 
-		l.rm_done();
+        l.rm_done();
 
-		assert_eq!(l.get("".to_string(), false, false).unwrap().len(), 1);
+        assert_eq!(l.get("".to_string(), false).unwrap().len(), 2);
     }
 }

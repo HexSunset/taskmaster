@@ -1,11 +1,11 @@
 use crate::task::{new_task, Task, TaskList};
-use std::io::{self, Write};
+use clap::ArgMatches;
 
 pub fn print_task(t: (usize, Task)) {
     print!("{}. ", t.0);
 
     if t.1.is_done() {
-        print!("[x] ");
+        print!("[X] ");
     } else {
         print!("[ ] ");
     }
@@ -13,48 +13,25 @@ pub fn print_task(t: (usize, Task)) {
     println!("{}", t.1.get_desc());
 }
 
-pub fn list_add(list: &mut TaskList) {
-    print!("description: ");
-    io::stdout().flush().unwrap();
-    let mut buffer = String::new();
-    io::stdin().read_line(&mut buffer).unwrap();
-
+pub fn list_add(list: &mut TaskList, sub: ArgMatches) {
+    let desc = sub.value_of("DESCRIPTION").unwrap();
     let mut t = new_task();
-    t.set_desc(buffer);
+    t.set_desc(desc.to_string());
 
     list.add(t);
+
+    println!("Task added!");
 }
 
-pub fn list_list(list: &mut TaskList) {
-    let mut description = String::new();
-    print!("filter by description: ");
-    io::stdout().flush().unwrap();
-    io::stdin().read_line(&mut description).unwrap();
-    description = description.trim().to_string();
-
-    let mut filter_done = String::new();
-    print!("filter out done ('n'): ");
-    io::stdout().flush().unwrap();
-    io::stdin().read_line(&mut filter_done).unwrap();
-    filter_done = filter_done.trim().to_string();
-    let filter_done = match filter_done.as_str() {
-        "y" => true,
-        _ => false,
+pub fn list_list(list: &mut TaskList, sub: ArgMatches) {
+    let description: String = match sub.value_of("description") {
+        Some(d) => d.to_string(),
+        None => String::new(),
     };
 
-    let mut filter_undone = String::new();
-    print!("filter out undone ('n'): ");
-    io::stdout().flush().unwrap();
-    io::stdin().read_line(&mut filter_undone).unwrap();
-    filter_undone = filter_undone.trim().to_string();
-    let filter_undone = match filter_undone.as_str() {
-        "y" => true,
-        _ => false,
-    };
+    let filter_done = !sub.is_present("all");
 
-    println!("---");
-
-    let tasks = list.get(description, filter_done, filter_undone);
+    let tasks = list.get(description, filter_done);
     if let Some(tasks) = tasks {
         for t in tasks {
             print_task(t);
@@ -64,16 +41,13 @@ pub fn list_list(list: &mut TaskList) {
     }
 }
 
-pub fn mark_done(list: &mut TaskList) {
-    let mut index = String::new();
-    print!("index: ");
-    io::stdout().flush().unwrap();
-    io::stdin().read_line(&mut index).unwrap();
-    let index: usize = index.trim().parse().unwrap();
+pub fn mark_done(list: &mut TaskList, sub: ArgMatches) {
+    let index: usize = sub.value_of("INDEX").unwrap().parse().unwrap();
 
     let task = list.get_index(index);
     if let Some(task) = task {
         task.set_done(true);
+        println!("Task {} marked as done", index);
     } else {
         println!("No task with index {}", index);
     }
