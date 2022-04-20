@@ -19,7 +19,7 @@ USAGE:
     task [SUBCOMMAND]
 
     ARGS:
-        <SUBCOMMAND>    [default: list] [possible values: add, list, done]
+        <SUBCOMMAND>    [default: list] [possible values: add, list, done, clear_done]
 ```
 
 ## Project goals
@@ -39,5 +39,5 @@ USAGE:
 - [X] Filter tasks based on done state
 - [ ] Filter tasks based on priority
 - [ ] Filter tasks based on due date
-- [ ] Save multiple different tasks lists for different projects
+- [ ] Save multiple different tasks lists for different projets
 - [ ] Manage tasks on a different machine (through ssh? http?)
