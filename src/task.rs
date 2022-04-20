@@ -103,7 +103,7 @@ impl TaskList {
     }
 
     pub fn rm_done(&mut self) {
-		self.tasks.retain(|t| t.is_done())
+		self.tasks.retain(|t| !t.is_done())
     }
 }
 
@@ -159,5 +159,27 @@ mod tests {
 
         assert!(l.get("".to_string(), true, false).unwrap().len() == 1);
         assert!(l.get("".to_string(), false, true).unwrap().len() == 1);
+    }
+
+    #[test]
+    fn remove_done() {
+        let mut l = TaskList::new();
+
+        let mut t = new_task();
+        t.set_done(true);
+        l.add(t);
+
+        let t2 = new_task();
+        l.add(t2);
+
+        let mut t3 = new_task();
+        t3.set_done(true);
+        l.add(t3);
+
+		assert_eq!(l.get("".to_string(), false, true).unwrap().len(), 2);
+
+		l.rm_done();
+
+		assert_eq!(l.get("".to_string(), false, false).unwrap().len(), 1);
     }
 }
