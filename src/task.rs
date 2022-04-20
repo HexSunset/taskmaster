@@ -47,16 +47,17 @@ impl TaskList {
 
     // TODO: Add print info
     pub fn export(&self) {
+        let conf = ron::ser::PrettyConfig::new();
         let file = std::fs::OpenOptions::new()
             .write(true)
             .truncate(true)
             .open("/home/aurora/taskmaster.ron");
         if file.is_err() {
             let file = std::fs::File::create("/home/aurora/taskmaster.ron").unwrap();
-            ron::ser::to_writer(file, &self).unwrap();
+            ron::ser::to_writer_pretty(file, &self, conf.clone()).unwrap();
         } else {
             let file = file.unwrap();
-            ron::ser::to_writer(file, &self).unwrap();
+            ron::ser::to_writer_pretty(file, &self, conf).unwrap();
         }
     }
 
