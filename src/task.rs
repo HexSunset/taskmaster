@@ -17,7 +17,7 @@ impl Task {
         self.desc.clone()
     }
 
-    pub fn get_done(&self) -> bool {
+    pub fn is_done(&self) -> bool {
         self.done
     }
 
@@ -90,16 +90,20 @@ impl TaskList {
         let mut tasks: Vec<(usize, Task)> = tasks.collect();
         tasks.retain(|t| t.1.get_desc().contains(&name));
         if filter_done {
-            tasks.retain(|t| !t.1.get_done())
+            tasks.retain(|t| !t.1.is_done())
         }
         if filter_undone {
-            tasks.retain(|t| t.1.get_done())
+            tasks.retain(|t| t.1.is_done())
         }
         if tasks.len() > 0 {
             Some(tasks)
         } else {
             None
         }
+    }
+
+    pub fn rm_done(&mut self) {
+		self.tasks.retain(|t| t.is_done())
     }
 }
 
@@ -141,7 +145,7 @@ mod tests {
     }
 
     #[test]
-    fn get_done() {
+    fn is_done() {
         let mut l = TaskList::new();
 
         let mut t = new_task();

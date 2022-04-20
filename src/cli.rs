@@ -4,7 +4,7 @@ use std::io::{self, Write};
 pub fn print_task(t: (usize, Task)) {
     print!("{}. ", t.0);
 
-    if t.1.get_done() {
+    if t.1.is_done() {
         print!("[x] ");
     } else {
         print!("[ ] ");
@@ -77,4 +77,9 @@ pub fn mark_done(list: &mut TaskList) {
     } else {
         println!("No task with index {}", index);
     }
+}
+
+pub fn clear_done(list: &mut TaskList) {
+    println!("Removing done tasks...");
+    list.rm_done();
 }

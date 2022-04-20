@@ -1,12 +1,12 @@
 use clap::{arg, command};
-use taskmaster::cli::{list_add, list_list, mark_done};
+use taskmaster::cli::{list_add, list_list, mark_done, clear_done};
 use taskmaster::task::TaskList;
 
 fn main() {
     let matches = command!()
         .arg(
             arg!([SUBCOMMAND])
-                .possible_values(["add", "list", "done"])
+                .possible_values(["add", "list", "done", "clear_done"])
                 .default_value("list"),
         )
         .get_matches();
@@ -18,6 +18,7 @@ fn main() {
             "add" => list_add(&mut list),
             "list" => list_list(&mut list),
             "done" => mark_done(&mut list),
+            "clear_done" => clear_done(&mut list),
             _ => unreachable!(),
         }
     }
