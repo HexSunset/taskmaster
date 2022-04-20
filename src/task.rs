@@ -37,7 +37,7 @@ impl TaskList {
 
     // TODO: Add print info
     pub fn import() -> TaskList {
-        let list_str = std::fs::read_to_string("/home/aurora/taskmaster.ron");
+        let list_str = std::fs::read_to_string("~/taskmaster.ron");
         if let Err(_) = list_str {
             TaskList::new()
         } else {
@@ -51,9 +51,9 @@ impl TaskList {
         let file = std::fs::OpenOptions::new()
             .write(true)
             .truncate(true)
-            .open("/home/aurora/taskmaster.ron");
+            .open("~/taskmaster.ron");
         if file.is_err() {
-            let file = std::fs::File::create("/home/aurora/taskmaster.ron").unwrap();
+            let file = std::fs::File::create("~/taskmaster.ron").unwrap();
             ron::ser::to_writer_pretty(file, &self, conf.clone()).unwrap();
         } else {
             let file = file.unwrap();
